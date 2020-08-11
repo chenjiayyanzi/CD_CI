@@ -1,0 +1,13 @@
+#get all the services
+kubectl get services
+kubectl get svc
+
+#check service
+kubectl describe services kubernetes
+
+#create service yaml file
+kubectl expose deployment simple-webapp —-type=NodePort —-targetPort=8080 —-port=8080 —-name=webapp-service
+—dry-run -o yaml > sac.yaml
+
+#create service with a yaml file
+kubectl create -f service-definition.yaml

@@ -1,0 +1,134 @@
+# we can schedule the pod deployment on the node if we want, just add a 
+# nodeName in the spec 
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-pod
+spec:
+  containers:
+    - name: nginx
+      image: nginx
+  nodeName: node01
+
+
+#check the kubernetes environments 
+kubectl -n kube-system get pods
+
+#labels and selectors
+kubectl get pod —selector env=prod,tier=frontend,bu=finance
+kubectl get pod -l env=prod
+
+#taints and tolerations
+kubectl describe nodes node01|grep taint
+
+#create a taint on node
+kubectl taint nodes node01 spray=mortein:NoSchedule
+
+#delete a taint on node
+kubectl taint nodes node01 spray:NoSchedule-
+#create label
+kubectl label nodes node01 size=large
+
+#we can set label in the pod creation file
+apiVersion: v1
+kind: Pod
+metadata:
+  name: myapp
+spec:
+  containers:
+  - name: data-processor
+    image: data-processor
+  nodeSelector:
+    size: large
+
+
+#list the nodes along with their labels
+kubectl get nodes --show-labels
+
+#node affinity: to ensure that pods are host on particular node
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+spec:
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: disktype
+            operator: In
+            values:
+            - ssd
+  containers:
+  - name: nginx
+    image: nginx
+    imagePullPolicy: IfNotPresent
+
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+spec:
+  affinity:
+    nodeAffinity:
+      preferredDuringSchedulingIgnoredDuringExecution:
+      - weight: 1
+        preference:
+          matchExpressions:
+          - key: disktype
+            operator: In
+            values:
+            - ssd
+  containers:
+  - name: nginx
+    image: nginx
+    imagePullPolicy: IfNotPresent
+
+
+
+
+#resources requirements and limits
+apiVersion: v1
+kind: Pod
+metadata:
+  name: memory-demo
+  namespace: mem-example
+spec:
+  containers:
+  - name: memory-demo-ctr
+    image: polinux/stress
+    resources:
+      limits:
+        memory: "200Mi"
+      requests:
+        memory: "100Mi"
+    command: ["stress"]
+    args: ["--vm", "1", "--vm-bytes", "150M", "--vm-hang", "1”]
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: cpu-demo
+  namespace: cpu-example
+spec:
+  containers:
+  - name: cpu-demo-ctr
+    image: vish/stress
+    resources:
+      limits:
+        cpu: "1"
+      requests:
+        cpu: "0.5"
+    args:
+    - -cpus
+    - "2"
+
+#static pod
+https://kubernetes.io/docs/tasks/configure-pod-container/static-pod/
+
+#multiple scheduler — use the specific scheduler
+schedulerName: my-scheduler
+

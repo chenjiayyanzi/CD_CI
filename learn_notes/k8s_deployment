@@ -1,0 +1,17 @@
+#create a deployment using yaml file
+kubectl create -f deployment-definition.yml
+
+#check deployment
+kubectl get deployments
+
+#get all resources deployed
+kubectl get all
+
+#create a yaml file using dry-run
+kubectl create deployment --image=httpd:2.4-alpine httpd-frontend --dry-run -o yaml > deployment-httpd.yaml
+
+then you can change the contents of the file, then create the deployment 
+kubectl create -f deployment-http.yaml
+
+#edit deployments
+kubectl edit deployment my-deployment

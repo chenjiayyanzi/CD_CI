@@ -1,0 +1,39 @@
+
+#check ip information on nodes
+kubectl get nodes -o wide
+
+#check network interface on node
+ip link 
+
+#check network interface and address
+ip addresse show 
+
+
+#find the bridge network created by docker
+docker network ls
+#after find the network id of the bridge, use inspect command to check the name of the bridge
+docker inspect 4d2612d40dcc | grep name
+
+#find the default route
+ip route show default
+
+#find the port
+ netstat -nltp|grep kube-scheduler
+
+#find the network plugin for kubernetes
+ps aux|grep kubelet |grep network-plugin
+
+
+#find  the CNI plugin configured to be used on kubernetes cluster
+ls /etc/cni/net.d/ 
+#and identify the name of the plugin
+
+#get pods IP information
+kubectl get pods -o wide
+
+#get service info
+kubectl get service
+#service ip range is set in kube-api-server —service-cluster-ip-range ipNet
+
+iptables -L -t net |grep web-service
+

@@ -1,0 +1,38 @@
+#check the pods in the default namespace
+kubectl get pods
+
+#check pods in a specific namespace
+1) kubectl get pods —namespace=prod
+2) kubectl -n prod get pods
+
+#list all the namespace
+1) kubectl get namespaces
+2) kubectl get ns
+
+
+#create pods in a specific namespace
+1) kubectl run --generator=run-pod/v1 --image=redis redis --namespace=finance
+
+2) kubectl create -f pod-definition.yaml —namespace=dev
+
+3) you can also put the namespace in the definition file under the section metadata:
+metadata:
+  name: my app-pod
+  namespace: dev
+  labels:
+    type: frontend
+
+
+#create a new namespace
+kubectl create namespace dev
+
+#switch between the namespaces
+kubectl config set-context $(kubectl config current-context) —namespace=dev
+
+
+#to view pods in all namespaces
+kubectl get pods —all-namespaces
+
+#search specific resource in all the namespace
+kubectl get all --all-namespaces |grep blue
+

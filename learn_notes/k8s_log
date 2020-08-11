@@ -1,0 +1,12 @@
+#metrics server: store data in memory
+git clone https://github.com/kubernetes-incubator/metrics-server.git
+cd kubernetes-metrics-server
+kubectl create -f .
+
+kubectl top node
+kubectl top pod
+
+#application logs
+kubectl logs -f name-of-the-pod name-of-the-container-if-there-are-more-than-one
+kubectl logs -f tradeflow nginx
+

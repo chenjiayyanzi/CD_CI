@@ -1,0 +1,44 @@
+Kubectl get pods
+
+#Create a new pod with the NGINX image
+kubectl run —generator=run-pod/v1 nginx --image nginx 
+
+#find details of pod
+kubectl describe pods newpods-jfsw4
+
+# check Which nodes are these pods placed on
+kubectl get pods -o wide
+
+# How many containers are part of the pod ‘webapp'
+First approach:
+kubectl get pods
+NAME                     READY   STATUS             RESTARTS   AGE
+newpods-jfsw4            1/1     Running            0          4m38s
+newpods-jwbsp            1/1     Running            0          4m38s
+newpods-vck9q            1/1     Running            0          4m38s
+nginx-6db489d4b7-qmdv4   1/1     Running            0          5m1s
+webapp                   1/2     ImagePullBackOff   0          87s
+
+—> in the READY column, 1/2 means we have 1 container is ready in the total 2 containers required.
+
+
+Second approach:
+Use the kubectl describe pods webapp, then count the section container
+
+
+#What images are used in the new 'webapp’ pod
+kubectl describe pod webapp
+
+#What does the READY column in the output of the 'kubectl get pods' command indicate
+Running container in Pod / Total container in Pod
+
+
+#deploy a pod using yaml file
+kubectl create -f pod.yml
+
+#change yaml file and deploy it
+kubectl apply -f pod.yml
+
+# delete a pod
+kubectl delete pods webapp
+

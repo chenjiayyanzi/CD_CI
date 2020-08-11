@@ -1,0 +1,29 @@
+#OS upgrade
+#to safely evict all of your pods from a node before you perform maintenance on the node
+kubectl drain node-name --ignore-daemonsets
+
+kubectl get pods -o wide
+
+
+#Configure the node to be schedulable again
+kubectl uncordon node01
+
+#To mark a Node unschedulable, run:
+kubectl cordon node01
+
+#check the upgrade info
+kubeadm upgrade plan
+
+#backup and restore
+#resources configs
+kubectl get all --all-namespace -o yaml > all-deploy-service.yaml
+
+#backup etcd
+ETCDCTL_API=3 etcdctl snapshot save snapshotdb
+
+#restore backup
+service kube-apiserver stop
+ETCDCTL_API=3 etcdctl snapshot restore snapshotdb --data-dir= ……
+
+
+

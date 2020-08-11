@@ -1,0 +1,169 @@
+#create a deployment
+kubectl create -f my-deployment.yaml
+
+#get 
+kubectl get deployment
+
+#update a deployment
+kubectl apply -f my-deployment-update.yaml
+
+#change the image of container in a deployment 
+kubectl set image deployment/my-deployment nginx=nginx:1.9.1
+
+#status
+kubectl rollout status deployment/my-deployment
+kubectl rollout history deployment/my-deployment
+
+#rollback deployment
+kubectl rollout undo deployment/my-deployment
+
+#command and args in pod file
+dockerfile    pod.yaml
+ENTRYPOINT —> command
+CMD        -> args 
+
+1) Dockerfile:
+
+FROM python:3.6-alpine
+
+
+RUN pip install flask
+
+
+COPY . /opt/
+
+
+EXPOSE 8080
+
+
+WORKDIR /opt
+
+
+ENTRYPOINT ["python", "app.py”]
+
+2) pod.yaml
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: webapp-green
+  labels:
+      name: webapp-green
+spec:
+  containers:
+  - name: simple-webapp
+    image: kodekloud/webapp-color
+    command: ["python", "app.py"]
+    args: ["--color", "pink"]
+
+
+#set up env variables, three ways
+1) env plain key value 
+env:
+  - name: APP_COLOR
+    value: blue
+
+2)using configMap
+env:
+  - name: APP_COLOR
+    ValueFrom: 
+      configMapKeyRef: 
+
+3)using Secrets
+env:
+  - name: APP_COLOR
+    ValueFrom: 
+      secretKeyRef: 
+
+
+#create configMap 
+1)imperative way:
+kubectl create configmap config-name --from-literal=key=value
+kubectl create configmap my-app-config --from-literal=APP_COLOR=blue --from-literal=APP_MODE=Prod
+
+#create configMap from file
+kubectl create configmap  config-name --from-file=path-to-file
+kubectl create configmap  my-app-config --from-file=app_config.properties
+
+2) declaretive way:
+kubectl create -f configfile.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata: 
+  name: my-app-config
+data:
+  APP_COLOR: blue
+  APP_MODE: Prod
+
+#get
+kubectl get configmaps
+kubectl describe configmaps
+
+
+#config in pod
+envFrom: 
+  - configMapRef:
+      name: my-app-config
+
+# single env in pod
+env: 
+  - name: APP_COLOR
+    valueFrom:
+      configMapKeyRef:
+        name: my-app-config
+        key: APP_COLOR
+
+#volumes
+volumes:
+  - name: app-config-volume
+    configMap:
+      name: my-app-config
+
+
+#create secrets 
+kubectl create secret generic secret-name --from-literal=key=value
+kubectl create secret generic my-secret —-from-literal=DB_Host=mysql
+
+#create secrets from file
+kubectl create secret generic secret-name --from-file=path-to-file
+kubectl create secret generic my-secret --from-file=app_secret.properties
+
+#create secrets from yaml file
+apiVersion: v1
+kind: Secret
+metadata:
+  name: my-secret
+data:
+  DB_Host: mysql
+  DB_user: root
+  DB_password: password
+change plain data to encrypted data:
+echo -n “mysql” |base64
+echo -n “root” |base64
+echo -n “password”|base64
+then write to the yaml file
+
+#get
+kubectl get secrets
+kubectl describe secrets
+kubectl get secret app-secret -o yaml
+then decode the value
+echo -n “bXlzcWw=“ |base64 --decode
+
+#put the secret into pod yaml file
+1) whole env file
+envFrom:
+  - secretRef:
+      name: my-secret
+2) single env
+env:
+  - name: DB_Password
+    ValueFrom:
+      secretKeyRef:
+        name: my-secret
+        key: DB_Password
+3)volumes:
+volumes:
+  - name: app-secret-volume
+    secret:
+      secretName: my-secret

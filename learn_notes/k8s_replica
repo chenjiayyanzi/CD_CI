@@ -1,0 +1,26 @@
+
+#check how many replicaset 
+kubectl get replicasets
+
+#create replicaset using yaml file
+kubectl create -f replicaset.yml
+
+
+# what’s the image used to create the pods in the new-replica-set
+kubectl describe replicaset new-replica-set
+kubectl describe rs new-replica-set
+
+
+#update the existing rs
+kubectl edit rs new-replica-set
+—-> you can see the original definition file, so you can change it
+
+#check the definition file of an existing rs
+kubectl get rs new-replica-set -o yaml
+
+#scale the rs
+kubectl scale rs new-replica-set -replicas=6 
+
+#delete rs
+kubectl delete rs new-replica-set
+
