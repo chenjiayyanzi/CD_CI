@@ -1,0 +1,17 @@
+FROM node:alpine3.10
+
+EXPOSE 80 
+
+RUN apk add --update tini \
+      && mkdir -p /usr/src/app
+
+WORKDIR /usr/src/app
+
+COPY package.json package.json
+
+RUN npm install \
+      && npm cache clean --force
+
+COPY . /usr/src/app/
+
+CMD "/sbin/tini -- node ./bin/www"

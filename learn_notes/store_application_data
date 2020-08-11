@@ -1,0 +1,17 @@
+Type of mount:
+-Volumes: are stored in a part of the host filesystem which is managed by Docker(/var/lib/docker/volumes/ on linux)
+          Volumes are the best way to persist data in Docker.
+-Bind mounts:may be stored anywhere on the host system. 
+-tmpfs: mounts are stored in the host system's memory only, and are never written to the host system's filesystem.
+
+
+More details:
+1. A given volume can be mounted into multiple containers simutaneously.
+2. When you use a bind mount, a file or directory on the host machine is mounted into a container.
+3. Good use cases for volumes:1) sharing data among multiple running containers;2)when you want to store your container's data
+                                 on a remote host or a cloud provider,rather than locally; 3)when you need to back up, restore
+                                 or migrate data from one Docker host to another.
+4.Good use cases for bind mounts:1)sharing configuration files from the host machine to containers; 2)sharing source code or 
+                                    build artifacts between a development environment on the Docker host and a container;
+
+

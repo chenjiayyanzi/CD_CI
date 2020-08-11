@@ -1,0 +1,28 @@
+kubectl version
+
+#view the nodes in the cluster
+kubectl get nodes
+
+#view the pods
+kubectl get pods
+
+#deploy app on kubernetes 
+kubectl create deployment kubernetes-bootcamp --image=gcr.io/google-samples/kubernetes-bootcamp:v1
+
+#to list your deployments use:
+kubectl get deployments
+
+#to view what containers are inside that pod and what image are used to build
+kubectll describe pods
+
+#check logs
+kubectl logs $POD_NAME
+
+#use the exec command to list the environment variables
+kubectl exec $POD_NAME env
+
+#start a bash session in the pod's container
+kubectl exec -ti $POD_NAME bash
+
+
+

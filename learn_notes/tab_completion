@@ -1,0 +1,20 @@
+Terminal Shell and Tab Completion for Docker CLI
+Docker Desktop for Windows Terminals
+On Windows you'll likely want to use PowerShell terminal (PowerShell.exe) rather than Command Prompt (cmd.exe), but if you don't like the default GUI window that Microsoft provides, you might want to check out cmder, which can run PowerShell inside a fancy tab-based GUI with lots of features. You can also use Bash shells but you're on your own for setting those up.
+
+Windows PowerShell Tab Completion
+Tab completion lets you quickly fill the rest of a command or argument as you type by hitting Tab. To get "tab completion" in PowerShell, try the setup steps for "DockerCompletion" on GitHub.
+
+macOS Terminals
+On Mac you can use the built in Terminal program which uses the default Bash shell. I prefer to use iTerm as my GUI terminal interface to gain more features than the built in one. I also use oh-my-zsh rather then Bash, and if you want to see my full setup, check out bretfisher.com/shell
+
+macOS Bash Tab Completion
+Tab completion lets you quickly fill the rest of a command or argument as you type by hitting Tab. Assuming you're running Docker for Mac, you'll want to connect up the completion scripts that come with Docker for Mac to your shell. Docker talks about this in their docs.  1. install docker 2. install completion with brew 3. update your .bash_profile 4. symlink your docker completion files 5. restart your terminal.
+
+Linux
+In a desktop Linux distro like Ubuntu, Mint, etc. you'll likely need to do nothing. They already have good built-in terminals and Bash tab completion works out of the box. Happy days!
+
+What You See In This Course
+If you like the tools, theme, VIM, etc. as seen in this course on my Mac, I've got a list of tools in my setup at www.bretfisher.com/shell that someday I'll turn into a tutorial, but mostly I'm just running their defaults.
+
+

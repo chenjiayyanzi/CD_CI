@@ -1,0 +1,18 @@
+#get into container 
+docker container run -it --name nginx -d nginx bash
+
+#start alpine container running ash, which is Alpine's default shell rather than bash
+#the -dit flags mean to start the container detached in the background, interactive and with a TTY
+#the container are running in the background. Use the docker attache command to connect to alpine1
+docker run -dit --name alpine1 alpine bash
+docker attach apline1 
+
+#start a container
+docker run -d --name jenkins jenkins 
+docker exec -it jenkins bash
+
+
+#copy files to docker container
+docker cp hello.sh jenkins:/tmp/hello.sh
+
+

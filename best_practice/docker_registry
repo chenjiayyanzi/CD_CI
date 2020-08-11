@@ -1,0 +1,32 @@
+1. members if one team can't access the images of other teams
+2. have different repositories for the different CI/CD phases:dev, qa,  pre-prod, prod
+3. a virtual repository is an aggregate of one or more repositories
+4. The most established hosted version of a Docker registry is the Docker Hub, 
+  allows in the free version for one private and as many public repos as you like.
+5. other registries: Amazon EC2 container registry, google container registry, CoreOS Quay.io
+6. private registry: deploy a registry server for testing
+7. private registry: production-ready registry:https://www.digitalocean.com/community/tutorials/how-to-set-up-a-private-docker-registry-on-ubuntu-18-04
+
+6. private registry:deploy a registry server for testing:
+Before you can deploy a registry, you need to install DOcker on the host. A registry is an instance of
+the registry image, and runs within Docker.
+1) run a local registry:
+  $ docker run -d -p 5000:5000 --restart=always --name registry registry:2
+  it's only appropriate for testing, A production-ready registry must be protected by TLS and should ideally
+  use an access-control mechanism.
+2) copy an image from Docker HUb to your registry:
+  $ docker pull ubuntu:16.04
+  $ docker tag ubuntu:16.04 localhost:5000/my-ubuntu
+  tag the image as localhost:5000/my-ubuntu, when the first part of the tag is a hostname and port, Docker interprets
+  this as the location of a registry, when pushing
+  $ docker push localhost:5000/my-ubuntu
+  $ docker image remove ubuntu:16.04
+  $ docker image remove localhost:5000/my-ubuntu
+  remove the locally-cached image and locahost:5000/my-ubuntu , so that you can test pulling the image from your registry.
+  $ docker pull localhost:5000/my-ubuntu
+  pull the image from your local registry
+3) stop a local registry:
+  $ docker container stop registry
+  $ docker container stop registry && docker container rm -v registry
+
+7. 

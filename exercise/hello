@@ -1,0 +1,4 @@
+#!/bin/bash
+name=$1
+
+echo "Hello welcome to jenkins container, $name"

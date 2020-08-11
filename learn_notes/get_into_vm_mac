@@ -1,0 +1,6 @@
+after run a container, if you want to get into the container and check the application, can use following 
+command
+
+docker run -it --rm --privileged --pid=host justincormack/nsenter1
+
+

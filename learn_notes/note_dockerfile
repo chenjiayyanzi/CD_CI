@@ -1,0 +1,11 @@
+Parser directive
+#escape=\
+or
+#escape=`
+the escape directive sets the character used to escape characters in a Dockerfile, if not sepecified, the default escape character is \.
+setting the escape character to ` is especially useful on Windows. where \ is the direcoty path separtor.
+
+CMD
+there can only be one CMD instruction in a Dockerfile, if you list more than one CMD, then ony the last CMD will take effect.
+Note: Don’t confuse RUN with CMD. RUN actually runs a command and commits the result; CMD does not execute anything at build time, but specifies the intended command for the image.
+
