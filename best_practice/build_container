@@ -1,3 +1,0 @@
-1. Package a single app per container
-   for example, LAMP stack:Apache/Mysql/PHP, the best practice is to use two or three different containers: one for appache,
-   one for mysql, one for PHP.
