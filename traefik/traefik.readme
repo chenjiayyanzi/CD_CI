@@ -1,0 +1,21 @@
+setup traefik by docker-compose file
+start your traefik with command:
+docker-compose up -d traefik
+
+deploy grafana service 
+docker-compose up -d grafana
+
+setup secure connection and forward the request to grafana
+enable ACME
+--entrypoints.web.address=:80
+--entrypoints.websecure.address=:443
+# ...
+--certificatesresolvers.myresolver.acme.email=your-email@example.com
+--certificatesresolvers.myresolver.acme.storage=acme.json
+# used during the challenge
+--certificatesresolvers.myresolver.acme.httpchallenge.entrypoint=web
+
+enable entrypoints
+--entryPoints.web.address=:80
+--entryPoints.websecure.address=:443
+

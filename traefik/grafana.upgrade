@@ -1,0 +1,25 @@
+the data of grafana is stored under the folder /root/grafana_data/grafana
+use volumes to mount -v /root/grafana_data/grafana:/var/lib/grafana
+
+update grafana with the follows steps:
+
+1. first backup your data
+if it is running without volumes, use command to backup:
+docker cp container-name:/var/lib/grafana folder_on_your_local_machine
+but now we are running with it, so dont worry, nth extra need to be done
+just make sure you dont delete the folder /root/grafana_data/grafana
+
+2. second try to build a new test grafana with different port: 
+for example here 4000 , coz you already have a grafana running on 3000
+find the good version you want to upgrade:
+docker pull grafana/grafana:7.1.3
+docker run --rm --user $ID --name=test-grafana -p 4000:3000 -v /root/grafana_data/grafana:/var/lib/grafana grafana/grafana:7.1.3
+
+3. verify that all the data has been migrated
+http://ip:4000 
+using your old username, password for example
+
+4 if everthing was ok, stop the old grafana, and test grafana
+build a permenant one with the following command:
+docker run -d --user $ID --name=grafana_production -p 3000:3000 -v /root/grafana_data/grafana:/var/lib/grafana grafana/grafana:7.1.3
+here we go
